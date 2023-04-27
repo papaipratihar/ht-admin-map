@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HungryTop Technologies Limited</title>
+    <link rel="shortcut icon"
+        href="https://play-lh.googleusercontent.com/TXNXU0bWFdRqOjd2AHuWVnI1HfqeKuGnD7fS8QcQnWvRkGIFY1fkwHH6sWIun3LO"
+        type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+            integrity="sha512-Eg5tCwkTvlT67/YbTJRpQW+RTx/7n0krN9jZ9+8W1emFpKLwKDaC4ND7VsmNTStHYx+7V2QKjSb6lo3qWmzU+Q=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <link href="/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+    <!-- Map container -->
+    <div id="map"></div>
+    <script>
+        // Initialize the map and pincodeBoundary variables
+        var map;
+        var pincodeBoundary;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: { lat: 22.5726, lng: 88.3639 },
+            });
+
+            // Fetch the default pincodes from the JSON file
+            fetch('pointer.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Get the array of default pincodes from the parsed JSON data
+                    var defaultPincodes = data.data.map(pincode => pincode._id);
+
+                    // Loop through default pincode array to create markers and boundaries
+                    for (var i = 0; i < defaultPincodes.length; i++) {
+                        var pincode = defaultPincodes[i];
+
+                        // Geocode the pin code to get its coordinates
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode(
+                            { address: pincode + ", India", componentRestrictions: { country: "IN" } },
+                            function (results, status) {
+                                if (status === "OK") {
+                                    var pincodeCoords = results[0].geometry.location;
+
+                                    // Create a circle to show the boundary
+                                    if (pincodeBoundary) {
+                                        // If a previous boundary exists, remove it from the map
+                                        pincodeBoundary.setMap(null);
+                                    }
+                                    // Add a marker to the center of the boundary
+                                    var marker = new google.maps.Marker({
+                                        position: pincodeCoords,
+                                        map: map,
+                                        title: "Pincode: " + pincodeCoords + " | Restaurants: " + pincode + " | Users: " + pincode,
+                                        icon: {
+                                            url: "https://cdn-icons-png.flaticon.com/32/2776/2776067.png",
+                                        },
+                                    });
+
+                                    // Add the polygon to the map
+                                    map.panTo(pincodeCoords);
+                                    pincodeBoundary.setMap(map);
+                                    map.setZoom(12)
+                                } else {
+                                    alert("Geocode was not successful for the following reason: " + status);
+                                }
+                            }
+                        );
+                    }
+                })
+                .catch(error => console.error(error));
+        }
+    
+
+
+
+
+        // Handle form submission
+        var pincodeForm = document.getElementById("pincode-form");
+        pincodeForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            var pincode = document.getElementById("pincode").value;
+
+            // Geocode the pin code to get its coordinates
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode(
+                { address: pincode + ", India", componentRestrictions: { country: "IN" } },
+                function (results, status) {
+                    if (status === "OK") {
+                        var pincodeCoords = results[0].geometry.location;
+
+                        // Create a circle to show the boundary
+                        if (pincodeBoundary) {
+                            // If a previous boundary exists, remove it from the map
+                            // pincodeBoundary.setMap(null);
+                        }
+                        pincodeBoundary = new google.maps.Circle({
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 0.8,
+                            strokeWeight: 2,
+                            fillColor: "#FF0000",
+                            fillOpacity: 0.05,
+                            center: pincodeCoords,
+                            radius: 5000, // in meters
+                            map: map,
+                        });
+                        // Add a marker to the center of the boundary
+                        var marker = new google.maps.Marker({
+                            position: pincodeCoords,
+                            map: map,
+                             title: "Pincode: " + pincode + " | Restaurants: " + pincode + " | Users: " + pincode,
+                            icon: {
+                                url: "https://cdn-icons-png.flaticon.com/32/777/777528.png",
+                            },
+                        });
+
+                        // Add the polygon to the map
+                        map.panTo(pincodeCoords);
+                        pincodeBoundary.setMap(map);
+                        map.setZoom(14)
+                    } else {
+                        alert("Geocode was not successful for the following reason: " + status);
+                    }
+                }
+            );
+        });
+    </script>
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvEfzQtWpiU8vUdL9JdJI2qnwHDnEpWLE&libraries=places&callback=initMap"></script>
+        <div class="footer">
+            Total User:
+            <br>
+            Total Restaurant:
+        </div>
+</body>
+<footer></footer>
+
+</html>

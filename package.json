@@ -1,0 +1,26 @@
+{
+  "name": "map",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "papai",
+  "license": "ISC",
+  "keywords": [
+    "mongodb"
+  ],
+  "description": "",
+  "dependencies": {
+    "all": "^0.0.0",
+    "axios": "^1.3.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "leaflet": "^1.9.3",
+    "mongo": "^0.1.0",
+    "mongoose": "^7.0.3",
+    "morgan": "^1.10.0"
+  }
+}

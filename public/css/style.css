@@ -1,0 +1,86 @@
+ #map {
+     height: 650px;
+     width: 100%;
+ }
+
+ /* Style the navbar */
+ .navbar {
+     display: flex;
+     background-color: #fb9802;
+     height: 50px;
+ }
+
+ /* Style the links inside the navbar */
+ .navbar a {
+     color: white;
+     text-align: center;
+     padding: 15px 17px;
+     text-decoration: none;
+ }
+
+ /* Style the input and button inside the navbar */
+ .navbar button,
+ .navbar input[type=text] {
+     padding: 7px;
+     margin-top: 5px;
+     text-align: left;
+     margin-right: 16px;
+     margin-bottom: 8px;
+     border: none;
+     font-size: 14px;
+ }
+
+ /* Add a red background color to the "Find" button */
+ .navbar button {
+     background-color: red;
+     color: white;
+ }
+
+ /* Add a clear fix to the navbar */
+ .navbar::after {
+     content: "";
+     clear: both;
+     display: table;
+ }
+
+ /* Set the order of the navbar elements */
+ .navbar a:first-child {
+     order: 1;
+     align-self: left;
+     text-align: center;
+     margin-top: 2px;
+     margin-bottom: 8px;
+ }
+
+ .navbar form {
+     order: 2;
+     align-self: center;
+     margin-right: auto;
+     margin-left: auto;
+     text-align: center;
+ }
+
+ .navbar b {
+     order: 3;
+     align-self: left;
+     text-align: left;
+     margin-top: 2px;
+     margin-bottom: 8px;
+     color: white;
+ }
+
+ .navbar button.refresh-btn {
+     order: 4;
+     align-self: center;
+     margin-left: auto;
+ }
+
+ .footer {
+     background-color: #fb9802;
+     color: #fff;
+     padding: 0.5px;
+     text-align: right;
+     position: absolute;
+     width: 99%;
+     font-size: 15px;
+ }

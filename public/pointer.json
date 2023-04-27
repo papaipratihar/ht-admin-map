@@ -1,0 +1,28 @@
+{
+  "status": "success",
+  "message": "success",
+  "data": [
+    {
+      "lat": 22.5792,
+      "lng": 88.4271,
+      "pincode": "700091"
+    },
+    {
+      "lat": 22.5765,
+      "lng": 88.4135,
+      "pincode": "700092",
+      "restaurant": "02"
+    },
+    {
+      "lat": 22.5624,
+      "lng": 88.3886,
+      "pincode": "700093",
+      "user": "23"
+    },
+    {
+      "lat": 22.5375,
+      "lng": 88.3781,
+      "pincode": "700094"
+    }
+  ]
+}
