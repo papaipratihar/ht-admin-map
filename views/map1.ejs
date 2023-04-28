@@ -25,7 +25,7 @@
     <script>
         const map = L.map('map');
             // Initializes map
-            map.setView([22.5726, 88.3639], 10);
+            map.setView([22.5726, 88.3639], 12);
             // Sets initial coordinates and zoom level
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -36,7 +36,7 @@
             let pincodes = [];
             let pincode; // Define pincode in global scope
 
-            fetch('pointer.json')
+            fetch('pointer.json',)
                 .then(response => response.json())
                 .then(data => {
                     pincodes = data.data; // Access the 'data' property of the response
@@ -47,7 +47,7 @@
             function addMarkers() {
                 pincodes.forEach(pincode => {
                     L.marker([pincode.lat, pincode.lng]).addTo(map)
-                        .bindPopup(`Pincode: ${pincode.pincode}, User: ${pincode.user || "NULL"}, Restaurant:${pincode.restaurant || "NULL"}`);
+                        .bindPopup(`Pincode: ${pincode.pincode}, User: ${pincode.user || "NULL"}`);
                 });
             }
             // Adds markers to the map for each pincode in the pincodes array and sets a popup with the pincode information
@@ -93,7 +93,7 @@ function searchPincode(event) {
     pincodes.forEach((pincode) => {
         if (pincode.pincode === searchValue) {
             found = true;
-            map.setView([pincode.lat, pincode.lng], 12);
+            map.setView([pincode.lat, pincode.lng], 14);
             L.marker([pincode.lat, pincode.lng], { id: pincode.pincode })
                 .addTo(map)
                 .bindPopup(
