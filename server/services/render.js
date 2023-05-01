@@ -1,4 +1,5 @@
- const axios = require("axios");
+const axios = require("axios");
+ const Joi = require("joi");
 
 exports.homeRoutes = (req, res) => {
   axios
@@ -19,27 +20,34 @@ exports.adminform = (req, res) => {
 
 
 exports.adminlogin = (req, res) => {
-  if (req.body.id === "admin" && req.body.password === "admin@123") {
-    axios
-      .get("http://localhost:3150/adminlogin")
-      .then(function (response) {
-        res.render("map1", { users: response.data });
-      })
-      .catch((err) => {
-        res.status(500).send({
-          message: `Error Occurred while loading users: ${err.message}`,
-        });
-      });
-  } else {
-    res.status(401).send({ message: "Invalid id or password" });
-  }
-};
+  const schema = Joi.object({
+    id: Joi.string().required().valid("admin"),
+    password: Joi.string().required().valid("admin@123"),
+  });
 
-exports.map1 = (req, res) => {
+  const { error } = schema.validate(req.body);
+  if (error) {
+    res.status(401).send({ message: "Invalid id or password" });
+    return;
+  }
+
   axios
     .get("http://localhost:3150/adminlogin")
     .then(function (response) {
-      res.render("map1", { users: response.data, restaurants: response.data });
+      res.render("map", { users: response.data });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Error Occurred while loading users: ${err.message}`,
+      });
+    });
+};
+
+exports.map = (req, res) => {
+  axios
+    .get("http://localhost:3150/adminlogin")
+    .then(function (response) {
+      res.render("map", { users: response.data, restaurants: response.data });
     })
     .catch((err) => {
       res.send({
